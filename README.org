@@ -4,14 +4,14 @@ A python script to perform reciprocal BLAST searches on multiple genomes.
 
 ** Introduction
 Reciprocal BLAST is a common computational method to identify putative
-orthologs. Given a gene /g_a/ in an organism /A/, to find its potential ortholog
+orthologs. Given a gene =ga= in an organism /A/, to find its potential ortholog
 
 in another organism /B/, the reciprocal BLAST is done as follows.
 
-1. The sequence of /g_a/ is BLASTed to the database of genes in organism /B/.
-2. The best hit /g_b/ (the highest scoring gene in /B/) is BLASTed back to the
+1. The sequence of =ga= is BLASTed to the database of genes in organism /B/.
+2. The best hit =gb= (the highest scoring gene in /B/) is BLASTed back to the
    database of organism /A/'s genes. If the best hit in the second BLAST is to
-   the original gene /g_a/, it is concluded that the genes /g/ and $g_b$ are
+   the original gene =ga=, it is concluded that the genes =ga= and =gb= are
    orthologs.
 
 ** Running reciprocal BLAST
