@@ -9,9 +9,9 @@ orthologs. Given a gene /g/ in an organism /A/, to find its potential ortholog
 in another organism /B/, the reciprocal BLAST is done as follows.
 
 1. The sequence of /g/ is BLASTed to the database of genes in organism /B/.
-2. The best hit /g'/ (the highest scoring gene in /B/) is BLASTed back to the
+2. The best hit /g/' (the highest scoring gene in /B/) is BLASTed back to the
    database of organism /A/'s genes. If the best hit in the second BLAST is to
-   the original gene /g/, it is concluded that the genes /g/ and /g'/ are
+   the original gene /g/, it is concluded that the genes /g/ and /g/' are
    orthologs.
 
 ** Running reciprocal BLAST
