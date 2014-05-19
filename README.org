@@ -1,6 +1,8 @@
+* Reciprocal BLAST 
+
 A python script to perform reciprocal BLAST searches on multiple genomes.
 
-* Introduction
+** Introduction
 Reciprocal BLAST is a common computational method to identify putative
 orthologs. Given a gene =ga= in an organism /A/, to find its potential ortholog
 
@@ -12,16 +14,16 @@ in another organism /B/, the reciprocal BLAST is done as follows.
    the original gene =ga=, it is concluded that the genes =ga= and =gb= are
    orthologs.
 
-* Running reciprocal BLAST
+** Running reciprocal BLAST
 
-** Setting up
+*** Setting up
 
 
-** Downloading genomes
+*** Downloading genomes
 
-** BLASTing
+*** BLASTing
 
-** Post-processing
+*** Post-processing
 
 
 
