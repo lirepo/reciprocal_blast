@@ -11,7 +11,7 @@ in another organism /B/, the reciprocal BLAST is done as follows.
 1. The sequence of /g_a/ is BLASTed to the database of genes in organism /B/.
 2. The best hit /g_b/ (the highest scoring gene in /B/) is BLASTed back to the
    database of organism /A/'s genes. If the best hit in the second BLAST is to
-   the original gene /g_a/, it is concluded that the genes /g/ and /g_b/ are
+   the original gene /g_a/, it is concluded that the genes /g/ and $g_b$ are
    orthologs.
 
 ** Running reciprocal BLAST
