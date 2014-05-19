@@ -17,9 +17,9 @@ def populate_dbs(orgs, data_dir, blast_bin_path, db_dir):
                    os.path.join(db_dir, org),            # db output file
                    os.path.join(db_dir, org+'.log')))    # logfile
     
-def reciprocal_blasts(orgs):
+def reciprocal_blasts(orgs, data_path, blast_bin_path, db_path, blast_results_path):
     """Compute reciprocal blast hits for orgs"""
-    results_contents = os.listdir(BLAST_RESULTS_PATH)
+    results_contents = os.listdir(blast_results_path)
     file_ext = '.faa'
     for org1 in orgs:
         for org2 in orgs:
@@ -28,15 +28,15 @@ def reciprocal_blasts(orgs):
             if org1 == org2:
                 print "skipping", org1, org2
                 continue            
-            full_fasta_file = os.path.join(DATA_PATH, org1+file_ext)
-            full_db_path = os.path.join(DB_PATH, org2)
+            full_fasta_file = os.path.join(data_path, org1+file_ext)
+            full_db_path = os.path.join(db_path, org2)
             if out_file in results_contents:
                 print "skipping", org1, org2
                 continue
-            os.system(os.path.join(BLAST_BIN_PATH, 
-                      ('blastp -query %s -task blastp -db %s -out %s -outfmt 5'
-                       % (full_fasta_file, full_db_path, 
-                          os.path.join("blast_results", out_file)))))
+            os.system(os.path.join(blast_bin_path, 'blastp') + 
+                      ' -query %s -task blastp -db %s -out %s -outfmt 5'
+                      % (full_fasta_file, full_db_path, 
+                         os.path.join("blast_results", out_file)))
             print "finished", org1, org2, "at", time.ctime()
 
 def head(xs):
@@ -123,28 +123,6 @@ def find_reciprocals(d1, d2):
                    if h2 in hits1[h1] and h1 in hits2[h2]]
     return reciprocals
 
-def load_reciprocals(orgs):
-    """Read the reciprocal blast results and return a dictionary of form
-    {results_filename:[(geneA, geneB)]}"""
-    def get(org1,org2):
-        filename = "reciprocals_%s_%s.csv" % (org1,org2)
-        lines = open(os.path.join("reciprocal_results", filename)).readlines()
-        results = [re.search(r"(.*)\t(.*)\n", line).groups() for line in lines]
-        return results
-
-    all_results = {}
-    for org1,org2 in choose2(orgs):
-        #for filename in dir_contents:
-        print org1,org2
-        try:
-            results = get(org1,org2)
-        except IOError:
-            reversed_results = get(org2,org1)
-            results = map(reverse,reversed_results)
-        filename = "reciprocals_%s_%s.csv" % (org1,org2)
-        all_results[filename] = results
-    return all_results
-
 def get_genome(data_dir,org):
     genome_file_name = os.path.join(data_dir, org+'.gbk')
     return SeqIO.read(genome_file_name, 'genbank')
@@ -190,16 +168,13 @@ def download_genome(accession, data_dir):
     net_handle.close()
     print "done."
 
-ORGS = ['NC_000913', 'NC_002516']
-BLAST_BIN_PATH = "/home/sefa/ncbi-blast-2.2.29+/bin/"
-DB_PATH = 'blastdb'
-DATA_PATH = 'data'
-BLAST_RESULTS_PATH = 'blast_results'
-RECIPROCAL_BLAST_RESULTS_PATH = 'reciprocal_results'
-epsilon = 10**-10
+def find_orthologs(orgs,
+                   data_path = 'data',
+                   db_path = 'blastdb',
+                   blast_bin_path = '/home/sefa/ncbi-blast-2.2.29+/bin/',
+                   blast_results_path = 'blast_results',
+                   reciprocal_blast_results_path = 'reciprocal_results'):
+    populate_dbs(orgs, data_path, blast_bin_path, db_path)
+    reciprocal_blasts(orgs, data_path, blast_bin_path, db_path, blast_results_path)
+    collate_reciprocal_blasts(orgs, data_path, blast_results_path, reciprocal_blast_results_path,)
 
-def main():
-    populate_dbs(ORGS, DATA_PATH, BLAST_BIN_PATH, DB_PATH)
-    reciprocal_blasts(ORGS)
-    collate_reciprocal_blasts(ORGS, DATA_PATH,BLAST_RESULTS_PATH,
-                              RECIPROCAL_BLAST_RESULTS_PATH)
