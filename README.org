@@ -55,7 +55,7 @@ Then call the function =find_orthologs= with the list of your genomes' accession
 numbers, like:
 
 #+BEGIN_SRC python
-find_orthologs(orgs = ['NC_000913', 'NC_002516'],
+find_orthologs(orgs = ['NC_000913', 'NC_002516', 'NC_000907'],
                blast_bin_path = '/home/sefa/ncbi-blast-2.2.29+/bin/',
                data_path = 'data',
                db_path = 'blastdb',
@@ -81,7 +81,7 @@ want to use the default values for =data_path=, =blast_results_path= and
 where you installed BLAST.
 
 #+BEGIN_SRC python
-find_orthologs(orgs = ['NC_000913', 'NC_002516'],
+find_orthologs(orgs = ['NC_000913', 'NC_002516', 'NC_000907'],
                blast_bin_path = '/home/sefa/ncbi-blast-2.2.29+/bin/')
 #+END_SRC
 
