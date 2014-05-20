@@ -74,6 +74,17 @@ where
 - =reciprocal_blast_results= is the directory that the final reciprocal results
   tab-separated files are saved.
 
+Except the first two, all arguments are optional and, if not specified, the
+default values (and already existing empty directories) will be used. If you
+want to use the default values for =data_path=, =blast_results_path= and
+=reciprocal_blast_results=, all you have to do provide the list of organisms and
+where you installed BLAST.
+
+#+BEGIN_SRC python
+find_orthologs(orgs = ['NC_000913', 'NC_002516'],
+               blast_bin_path = '/home/sefa/ncbi-blast-2.2.29+/bin/')
+#+END_SRC
+
 Upon calling this function, the script will
 - create a database for each organism consisting of all amino acid sequences
   contained in its FASTA file.
