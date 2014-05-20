@@ -98,8 +98,7 @@ Upon calling this function, the script will
   one from each organism.
 
 See =reciprocal_results/sample_result.tsv= to see what the result, for a pair
-of organisms, should look like. Note that this file doesn't contain all
-ortholog assignments between genomes, only a few to give the idea.
+of organisms, should look like.
 
 ** Running reciprocal BLAST for too many (~20) genomes
 Running reciprocal BLAST for ~20 genomes make take more than a day. In practice,
