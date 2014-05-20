@@ -1,28 +1,99 @@
 * Reciprocal BLAST 
 
-A python script to perform reciprocal BLAST searches on multiple genomes.
+This repository contains python code to perform reciprocal BLAST searches on
+a set of genomes.
 
 ** Introduction
 Reciprocal BLAST is a common computational method to identify putative
-orthologs. Given a gene =ga= in an organism /A/, to find its potential ortholog
-in another organism /B/, the reciprocal BLAST is done as follows.
+orthologs, genes in different species that evolved from a common ancestor by
+speciation. Given a gene =ga= in an organism /A/, to find its potential ortholog
+in another organism /B/, the reciprocal BLAST is performed in two steps.
 
-1. The sequence of =ga= is BLASTed to the database of genes in organism /B/.
-2. The best hit =gb= (the highest scoring gene in /B/) is BLASTed back to the
-   database of organism /A/'s genes. If the best hit in the second BLAST is to
-   the original gene =ga=, it is concluded that the genes =ga= and =gb= are
-   orthologs.
+- The sequence of =ga= is BLASTed to the database of genes in organism /B/.
+- The best hit =gb= (the highest scoring gene in /B/) is BLASTed back to the
+  database of organism /A/'s genes. If the best hit in the second BLAST is to
+  the original gene =ga=, it is concluded that the genes =ga= and =gb= are
+  orthologs.
 
 ** Running reciprocal BLAST
 
-*** Setting up
+This section walks step by step through the process of conducting pair-wise
+reciprocal BLAST searches for a set of genomes. In what follows, it is assumed
+that you have cloned this Git repository to your local machine. If you have not
+done so already, do so now by typing:
 
+: git clone git://github.com/sefakilic/reciprocal_blast.git
+
+which will create a copy of the repository locally.
 
 *** Downloading genomes
+Before running reciprocal BLAST search, you need to download the genome files in
+genbank format (e.g. =NC_000913.gbk=) and the amino acid sequences of all
+proteins in FASTA format (e.g. =NC_000913.faa=) for each genome of interest. For
+each organism, to download necessary files, just open [[http://ftp.ncbi.nih.gov/genomes/Bacteria][NCBI's bacterial genome
+FTP page]] in a browser window, find the folder for the organism and download the
+files that have extensions =.gbk= and =.faa=. All genbank and FASTA files should
+be put in =data= folder in the local copy of this repository.
 
-*** BLASTing
+*** Setting up BLAST
+To conduct the search, you also need to have BLAST locally installed in your
+machine. BLAST executables are available [[ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/][here]]. Installing BLAST is very easy, at
+least if you are a GNU/Linux user! Just extract the =.tar.gz= to some directory
+and it should be ready to use.
 
-*** Post-processing
+*** The big moment: running reciprocal BLAST
+After you downloaded your genomes and set up BLAST, go to your copy of the
+repository and open =reciprocal_blast.py= in an interactive Python session. From
+the command line, you can do this by typing:
+
+#+BEGIN_SRC shell
+$ cd [path to the local copy of this repository]
+$ python -i reciprocal_blast.py
+#+END_SRC
+
+Then call the function =find_orthologs= with the list of your genomes' accession
+numbers, like:
+
+#+BEGIN_SRC python
+find_orthologs(orgs = ['NC_000913', 'NC_002516'],
+               blast_bin_path = '/home/sefa/ncbi-blast-2.2.29+/bin/',
+               data_path = 'data',
+               db_path = 'blastdb',
+               blast_results_path = 'blast_results',
+               reciprocal_blast_results_path = 'reciprocal_results'):
+#+END_SRC
+
+where
+- =orgs= is the list of genome accession numbers that you want to do reciprocal
+  BLAST,
+- =blast_bin_path= is the path that has BLAST executables,
+- =data_path= is the relative directory where all =.gbk= and =.faa= files are kept,
+- =db_path= is the relative directory that is used to generate the BLAST
+  databases,
+- =blast_results_path= is the output directory for BLAST
+- =reciprocal_blast_results= is the directory that the final reciprocal results
+  tab-separated files are saved.
+
+Upon calling this function, the script will
+- create a database for each organism consisting of all amino acid sequences
+  contained in its FASTA file.
+- BLAST each protein in each genome against every other genome and save results
+  into =blast_results_path= (default is =blast_results=)
+- collate the one-way BLAST hits into reciprocal results and generate, for each
+  pair of organisms, a tab-separated file whose lines consist of pairs of
+  - gene identifiers,
+  - locus tags and
+  - gene annotations,
+  one from each organism.
+
+See =reciprocal_results/sample_result.csv= to see what the result, for a pair
+of organisms, should look like.
+
+** Running reciprocal BLAST for too many (~20) genomes
+Running reciprocal BLAST for ~20 genomes make take more than a day. In practice,
+the massively parallel nature of this task makes cluster computing a more
+natural and efficient setting for this task. For details see the original
+repository at https://github.com/poneill/reciprocal_blast.
 
 
 

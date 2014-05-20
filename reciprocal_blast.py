@@ -169,9 +169,9 @@ def download_genome(accession, data_dir):
     print "done."
 
 def find_orthologs(orgs,
+                   blast_bin_path = '/home/sefa/ncbi-blast-2.2.29+/bin/',
                    data_path = 'data',
                    db_path = 'blastdb',
-                   blast_bin_path = '/home/sefa/ncbi-blast-2.2.29+/bin/',
                    blast_results_path = 'blast_results',
                    reciprocal_blast_results_path = 'reciprocal_results'):
     populate_dbs(orgs, data_path, blast_bin_path, db_path)
