@@ -56,7 +56,7 @@ def collate_reciprocal_blasts(orgs, data_dir, blast_results_dir, reciprocal_resu
         
     for i, (org1,org2) in enumerate(choose2(orgs)): 
         outfile = os.path.join(reciprocal_results_dir,
-                               'reciprocals_%s_%s.csv' % (org1, org2))
+                               'reciprocals_%s_%s.tsv' % (org1, org2))
         print "collating reciprocals for %s,%s at %s" % (org1, org2, time.ctime())
         filename1 = os.path.join(blast_results_dir, "results_%s_%s.txt" % (org1, org2))
         filename2 = os.path.join(blast_results_dir, "results_%s_%s.txt" % (org2, org1))
